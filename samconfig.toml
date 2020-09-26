@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "out-tonight"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1erbhxwkwwi2a"
+s3_prefix = "out-tonight"
+region = "eu-west-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"

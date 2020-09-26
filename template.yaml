@@ -3,37 +3,41 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   out-tonight
 
-  Sample SAM Template for out-tonight
+  Template for out-tonight
 
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     Timeout: 3
 
 Resources:
-  HelloWorldFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  OutTonightFunction:
+    Type: AWS::Serverless::Function
     Properties:
-      CodeUri: hello_world/
-      Handler: app.lambda_handler
+      CodeUri: out_tonight/
+      Handler: out_tonight.out_tonight_handler
       Runtime: python3.8
+      Policies: AmazonDynamoDBFullAccess
       Events:
-        HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+        OutTonight:
+          Type: Api
           Properties:
-            Path: /hello
+            Path: /out-tonight
             Method: get
+  
+  OutTonightTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: out_or_not
+        Type: String
 
 Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  OutTonightApi:
+    Description: "API Gateway endpoint URL for Prod stage for out-tonight function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/out-tonight/"
+  OutTonightFunction:
+    Description: "out-tonight Lambda Function ARN"
+    Value: !GetAtt OutTonightFunction.Arn
+  OutTonightFunctionIamRole:
+    Description: "Implicit IAM Role created for out-tonight function"
+    Value: !GetAtt OutTonightFunctionRole.Arn
